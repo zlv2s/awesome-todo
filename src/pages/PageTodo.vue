@@ -35,6 +35,14 @@
         <span>{{ key }}</span>
       </task>
     </q-list>
+
+    <div class="absolute-bottom text-center q-mb-lg">
+      <q-btn @click="showAddTask = true" color="primary" icon="add" round size="24px"></q-btn>
+    </div>
+
+    <q-dialog v-model="showAddTask">
+      <add-task />
+    </q-dialog>
   </q-page>
 </template>
 
@@ -42,14 +50,17 @@
 import { mapGetters } from 'vuex'
 export default {
   data() {
-    return {}
+    return {
+      showAddTask: true
+    }
   },
   computed: {
     ...mapGetters('taskModule', ['tasks'])
   },
 
   components: {
-    task: require('../components/Task/task').default
+    task: require('../components/Task/task').default,
+    'add-task': require('../components/Modals/AddTask').default
   }
 }
 </script>
