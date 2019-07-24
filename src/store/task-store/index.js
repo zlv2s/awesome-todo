@@ -1,3 +1,4 @@
+import Vue from 'vue'
 const state = {
   tasks: {
     'ID1': {
@@ -45,10 +46,26 @@ const state = {
 }
 
 const mutations = {
-
+  updateTask(state, { id, updates }) {
+    // state.tasks[id]['completed'] = updates.completed
+    // * use Object.assign() instead
+    Object.assign(state.tasks[id], updates)
+  },
+  deleteTask(state, id) {
+    // delete state.tasks[id]
+    // * make it reactive
+    Vue.delete(state.tasks, id)
+  }
 }
 
-const actions = {}
+const actions = {
+  updateTask({ commit }, { id, updates }) {
+    commit('updateTask', { id, updates })
+  },
+  deleteTask({ commit }, id) {
+    commit('deleteTask', id)
+  }
+}
 
 const getters = {
   tasks: state => state.tasks

@@ -31,7 +31,9 @@
           </div>
         </q-item-section>
       </q-item>-->
-      <task :key="key" :task="task" v-for="(task, key) in tasks"></task>
+      <task :id="key" :key="key" :task="task" v-for="(task, key) in tasks">
+        <span>{{ key }}</span>
+      </task>
     </q-list>
   </q-page>
 </template>
