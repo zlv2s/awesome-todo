@@ -11,7 +11,9 @@
         <div class="row q-mb-sm">
           <q-input
             :rules="[val => !!val || 'Field is required']"
+            autofocus
             class="col"
+            clearable
             label="Task Name"
             outlined
             ref="name"
@@ -37,7 +39,7 @@
           </q-input>
         </div>
 
-        <div class="row q-mb-sm">
+        <div class="row q-mb-sm" v-if="taskToSubmit.dueDate">
           <q-input label="Due time" outlined v-model="taskToSubmit.dueTime">
             <template v-slot:append>
               <q-icon class="cursor-pointer" name="access_time">
