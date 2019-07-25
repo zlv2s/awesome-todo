@@ -1,7 +1,26 @@
 import Vue from 'vue'
 import { uid } from 'quasar'
 const state = {
-  tasks: {}
+  tasks: {
+    'id1': {
+      name: 'cavsvsdasdvsda',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '18:30'
+    },
+    'id2': {
+      name: 'cavsvsdasdvsda',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '18:30'
+    },
+    'id3': {
+      name: 'cavsvsdasdvsda',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '18:30'
+    }
+  }
   // tasks: [
   //   {
   //     id: '1',

@@ -29,7 +29,7 @@ export default {
   },
 
   components: {
-    task: require('../components/Task/task').default,
+    'task': require('../components/Task/task').default,
     'add-task': require('../components/Modals/AddTask').default
   },
   methods: {

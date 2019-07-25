@@ -21,7 +21,7 @@
             v-model="taskToSubmit.name"
           />
         </div>-->
-        <modal-task-name :name.sync="taskToSubmit.name"></modal-task-name>
+        <modal-task-name :name.sync="taskToSubmit.name" />
 
         <!-- <div class="row q-mb-sm">
           <q-input
@@ -41,7 +41,7 @@
           </q-input>
         </div>-->
 
-        <modal-due-date :dueDate.sync="taskToSubmit.dueDate"></modal-due-date>
+        <modal-due-date :dueDate.sync="taskToSubmit.dueDate" />
 
         <!-- <div class="row q-mb-sm" v-if="taskToSubmit.dueDate">
           <q-input label="Due time" outlined v-model="taskToSubmit.dueTime">
@@ -54,7 +54,7 @@
             </template>
           </q-input>
         </div>-->
-        <modal-due-time :dueDate="taskToSubmit.dueDate" :dueTime.sync="taskToSubmit.dueTime"></modal-due-time>
+        <modal-due-time :dueTime.sync="taskToSubmit.dueTime" v-if="taskToSubmit.dueDate" />
       </q-card-section>
 
       <q-card-actions align="right">

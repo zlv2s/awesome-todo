@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-mb-sm" v-if="dueDate">
+  <div class="row q-mb-sm">
     <q-input :value="dueTime" @input="$emit('update:dueTime',$event)" label="Due time" outlined>
       <template v-slot:append>
         <q-icon class="cursor-pointer" name="access_time">
@@ -14,6 +14,6 @@
 
 <script>
 export default {
-  props: ['dueTime', 'dueDate']
+  props: ['dueTime']
 }
 </script>

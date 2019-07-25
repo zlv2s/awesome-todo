@@ -32,14 +32,25 @@
     </q-item-section>
 
     <q-item-section side>
-      <q-btn @click.stop="promptToDelete(id)" color="red" dense flat icon="delete" round />
+      <div class="row">
+        <q-btn @click.stop="showEditTask = true" color="primary" dense flat icon="edit" round />
+        <q-btn @click.stop="promptToDelete(id)" color="red" dense flat icon="delete" round />
+      </div>
     </q-item-section>
+    <q-dialog v-model="showEditTask">
+      <edit-task :id="id" :task="task" @closeModal="showEditTask = false" />
+    </q-dialog>
   </q-item>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 export default {
+  data() {
+    return {
+      showEditTask: false
+    }
+  },
   props: {
     task: {
       type: Object,
@@ -78,6 +89,9 @@ export default {
           this.deleteTask(id)
         })
     }
+  },
+  components: {
+    'edit-task': require('../Modals/EditTask').default
   }
 }
 </script>
