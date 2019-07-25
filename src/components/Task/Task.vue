@@ -13,7 +13,6 @@
     <q-item-section>
       <q-item-label :class="textStrikeThrough(task)">
         {{ task.name}}
-        <slot></slot>
       </q-item-label>
     </q-item-section>
 

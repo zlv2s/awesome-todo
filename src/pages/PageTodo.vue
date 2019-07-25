@@ -1,8 +1,17 @@
 <template>
   <q-page class="q-pa-md">
-    <no-task v-if="!Object.keys(tasksTodo).length" />
+    <div class="row q-mb-lg">
+      <search />
+    </div>
+    <p
+      class="text-center"
+      v-if="search && !Object.keys(tasksTodo).length &&  !Object.keys(tasksCompleted).length"
+    >No search results</p>
 
-    <task-todo :tasksTodo="tasksTodo" v-else />
+    <!-- * criteria for no-task show or not -->
+    <no-task v-if="!Object.keys(tasksTodo).length && !search" />
+
+    <task-todo :tasksTodo="tasksTodo" v-if="Object.keys(tasksTodo).length" />
 
     <q-separator dark spaced />
 
@@ -19,7 +28,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -27,6 +36,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('taskModule', ['search']),
     ...mapGetters('taskModule', ['tasksTodo', 'tasksCompleted'])
   },
 
@@ -39,7 +49,8 @@ export default {
     'add-task': require('../components/Modals/AddTask').default,
     'task-todo': require('../components/Task/TaskTodo').default,
     'task-completed': require('../components/Task/TaskCompleted').default,
-    'no-task': require('../components/Task/NoTask').default
+    'no-task': require('../components/Task/NoTask').default,
+    search: require('../components/Task/Tools/Search').default
   },
   methods: {
     closeAddTask() {

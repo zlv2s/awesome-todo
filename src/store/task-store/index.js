@@ -3,47 +3,25 @@ import { uid } from 'quasar'
 const state = {
   tasks: {
     'id1': {
-      name: 'cavsvsdasdvsda',
+      name: 'hello world',
       completed: false,
       dueDate: '2019/05/12',
       dueTime: '18:30'
     },
     'id2': {
-      name: 'cavsvsdasdvsda',
+      name: 'hi there',
       completed: false,
       dueDate: '2019/05/12',
       dueTime: '18:30'
     },
     'id3': {
-      name: 'cavsvsdasdvsda',
+      name: 'oh my god',
       completed: false,
       dueDate: '2019/05/12',
       dueTime: '18:30'
     }
-  }
-  // tasks: [
-  //   {
-  //     id: '1',
-  //     name: 'cavsvsdasdvsda',
-  //     completed: false,
-  //     dueDate: '2019/05/12',
-  //     dueTime: '18:30'
-  //   },
-  //   {
-  //     id: '2',
-  //     name: 'vasvsdsv',
-  //     completed: false,
-  //     dueDate: '2019/05/12',
-  //     dueTime: '18:30'
-  //   },
-  //   {
-  //     id: '3',
-  //     name: 'acasvsas',
-  //     completed: false,
-  //     dueDate: '2019/05/12',
-  //     dueTime: '18:30'
-  //   }
-  // ]
+  },
+  search: ''
 }
 
 const mutations = {
@@ -60,6 +38,9 @@ const mutations = {
   addTask(state, { taskId, task }) {
     // Object.assign(state.tasks, { [taskId]: task })
     Vue.set(state.tasks, taskId, task)
+  },
+  setSearch(state, value) {
+    state.search = value
   }
 }
 
@@ -73,27 +54,48 @@ const actions = {
   addTask({ commit }, task) {
     let taskId = uid()
     commit('addTask', { taskId, task })
+  },
+  setSearch({ commit }, value) {
+    commit('setSearch', value)
   }
 }
 
 const getters = {
-  tasksTodo: state => {
+  // * mark uncompleted
+  tasksTodo: (state, getters) => {
+    const tasksFiltered = getters.tasksFiltered
     const task = {}
-    Object.keys(state.tasks).forEach(key => {
-      if (!state.tasks[key]['completed']) {
-        task[key] = state.tasks[key]
+    Object.keys(tasksFiltered).forEach(key => {
+      if (!tasksFiltered[key]['completed']) {
+        task[key] = tasksFiltered[key]
       }
     })
     return task
   },
-  tasksCompleted: state => {
+  // * mark completed
+  tasksCompleted: (state, getters) => {
+    const tasksFiltered = getters.tasksFiltered
     const task = {}
-    Object.keys(state.tasks).forEach(key => {
-      if (state.tasks[key]['completed']) {
-        task[key] = state.tasks[key]
+    Object.keys(tasksFiltered).forEach(key => {
+      if (tasksFiltered[key]['completed']) {
+        task[key] = tasksFiltered[key]
       }
     })
     return task
+  },
+
+  //  * filter tasks by input value
+  tasksFiltered: state => {
+    const taskFiltered = {}
+    if (state.search) {
+      Object.keys(state.tasks).forEach(key => {
+        if (state.tasks[key]['name'].toLowerCase().includes(state.search.toLowerCase())) {
+          taskFiltered[key] = state.tasks[key]
+        }
+      })
+      return taskFiltered
+    }
+    return state.tasks
   }
 }
 

@@ -2,9 +2,7 @@
   <div>
     <list-header bgcolor="bg-warning">Todo</list-header>
     <q-list bordered separator>
-      <task :id="key" :key="key" :task="task" v-for="(task, key) in tasksTodo">
-        <span>{{ key }}</span>
-      </task>
+      <task :id="key" :key="key" :task="task" v-for="(task, key) in tasksTodo"></task>
     </q-list>
   </div>
 </template>
