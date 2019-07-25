@@ -1,13 +1,12 @@
 <template>
   <q-page class="q-pa-md">
-    <!-- <q-list bordered separator v-if="Object.keys(tasksTodo).length">
-      <task :id="key" :key="key" :task="task" v-for="(task, key) in tasksTodo">
-        <span>{{ key }}</span>
-      </task>
-    </q-list>-->
-    <task-todo :tasksTodo="tasksTodo" />
-    <q-separator spaced dark />
-    <task-completed :tasksCompleted="tasksCompleted" />
+    <no-task @addTask="showAddTask = true" v-if="!Object.keys(tasksTodo).length" />
+
+    <task-todo :tasksTodo="tasksTodo" v-else />
+
+    <q-separator dark spaced />
+
+    <task-completed :tasksCompleted="tasksCompleted" v-if="Object.keys(tasksCompleted).length" />
 
     <div class="absolute-bottom text-center q-mb-lg">
       <q-btn @click="showAddTask = true" color="primary" icon="add" round size="24px"></q-btn>
@@ -34,7 +33,8 @@ export default {
   components: {
     'add-task': require('../components/Modals/AddTask').default,
     'task-todo': require('../components/Task/TaskTodo').default,
-    'task-completed': require('../components/Task/TaskCompleted').default
+    'task-completed': require('../components/Task/TaskCompleted').default,
+    'no-task': require('../components/Task/NoTask').default
   },
   methods: {
     closeAddTask() {
