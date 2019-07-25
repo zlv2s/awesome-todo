@@ -20,7 +20,13 @@
         </div>
 
         <div class="row q-mb-sm">
-          <q-input label="Due date" outlined v-model="taskToSubmit.dueDate">
+          <q-input
+            :rules="['date']"
+            label="Due date"
+            mask="date"
+            outlined
+            v-model="taskToSubmit.dueDate"
+          >
             <template v-slot:append>
               <q-icon class="cursor-pointer" name="event">
                 <q-popup-proxy ref="qDateProxy" transition-hide="scale" transition-show="scale">
@@ -52,6 +58,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -64,11 +71,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions('taskModule', ['addTask']),
     submitForm() {
       this.submitTask(0)
       this.$emit('closeModal')
     },
     submitTask() {
+      this.addTask(this.taskToSubmit)
       console.log('submitted')
     }
   }

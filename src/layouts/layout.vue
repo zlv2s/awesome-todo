@@ -40,7 +40,7 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ nav.label }}</q-item-label>
-            <q-item-label caption>quasar.dev</q-item-label>
+            <!-- <q-item-label caption>quasar.dev</q-item-label> -->
           </q-item-section>
         </q-item>
       </q-list>

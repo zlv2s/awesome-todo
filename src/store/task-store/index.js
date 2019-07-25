@@ -1,25 +1,7 @@
 import Vue from 'vue'
+import { uid } from 'quasar'
 const state = {
-  tasks: {
-    'ID1': {
-      name: 'cavsvsdasdvsda',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '18:30'
-    },
-    'ID2': {
-      name: 'cavsvsdasdvsda',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '18:30'
-    },
-    'ID3': {
-      name: 'cavsvsdasdvsda',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '18:30'
-    }
-  }
+  tasks: {}
   // tasks: [
   //   {
   //     id: '1',
@@ -55,6 +37,10 @@ const mutations = {
     // delete state.tasks[id]
     // * make it reactive
     Vue.delete(state.tasks, id)
+  },
+  addTask(state, { taskId, task }) {
+    // Object.assign(state.tasks, { [taskId]: task })
+    Vue.set(state.tasks, taskId, task)
   }
 }
 
@@ -64,6 +50,10 @@ const actions = {
   },
   deleteTask({ commit }, id) {
     commit('deleteTask', id)
+  },
+  addTask({ commit }, task) {
+    let taskId = uid()
+    commit('addTask', { taskId, task })
   }
 }
 
