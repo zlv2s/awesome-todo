@@ -2,6 +2,7 @@
   <q-page class="q-pa-md">
     <div class="row q-mb-lg">
       <search />
+      <sort />
     </div>
     <p
       class="text-center"
@@ -50,7 +51,8 @@ export default {
     'task-todo': require('../components/Task/TaskTodo').default,
     'task-completed': require('../components/Task/TaskCompleted').default,
     'no-task': require('../components/Task/NoTask').default,
-    search: require('../components/Task/Tools/Search').default
+    search: require('../components/Task/Tools/Search').default,
+    sort: require('../components/Task/Tools/Sort').default
   },
   methods: {
     closeAddTask() {

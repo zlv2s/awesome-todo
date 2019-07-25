@@ -6,22 +6,23 @@ const state = {
       name: 'hello world',
       completed: false,
       dueDate: '2019/05/12',
-      dueTime: '18:30'
+      dueTime: '17:30'
     },
     'id2': {
-      name: 'hi there',
+      name: 'boy',
       completed: false,
       dueDate: '2019/05/12',
       dueTime: '18:30'
     },
     'id3': {
-      name: 'oh my god',
+      name: 'dpple',
       completed: false,
       dueDate: '2019/05/12',
-      dueTime: '18:30'
+      dueTime: '19:30'
     }
   },
-  search: ''
+  search: '',
+  sort: 'name'
 }
 
 const mutations = {
@@ -41,6 +42,9 @@ const mutations = {
   },
   setSearch(state, value) {
     state.search = value
+  },
+  setSort(state, value) {
+    state.sort = value
   }
 }
 
@@ -57,6 +61,9 @@ const actions = {
   },
   setSearch({ commit }, value) {
     commit('setSearch', value)
+  },
+  setSort({ commit }, value) {
+    commit('setSort', value)
   }
 }
 
@@ -85,17 +92,35 @@ const getters = {
   },
 
   //  * filter tasks by input value
-  tasksFiltered: state => {
+  tasksFiltered: (state, getters) => {
     const taskFiltered = {}
     if (state.search) {
-      Object.keys(state.tasks).forEach(key => {
-        if (state.tasks[key]['name'].toLowerCase().includes(state.search.toLowerCase())) {
-          taskFiltered[key] = state.tasks[key]
+      Object.keys(getters.tasksSorted).forEach(key => {
+        // * be careful with the case sensitive
+        if (getters.tasksSorted[key]['name'].toLowerCase().includes(state.search.toLowerCase())) {
+          taskFiltered[key] = getters.tasksSorted[key]
         }
       })
       return taskFiltered
     }
-    return state.tasks
+    return getters.tasksSorted
+  },
+
+  // * sort tasks by name
+  tasksSorted: state => {
+    const taskSorted = {}
+    const sortedKeys = Object.keys(state.tasks).sort((a, b) => {
+      const aName = state.tasks[a][state.sort].toLowerCase(),
+        bName = state.tasks[b][state.sort].toLowerCase()
+      if (aName > bName) return 1
+      else if (aName === bName) return 0
+      else return -1
+    })
+    sortedKeys.forEach(key => {
+      taskSorted[key] = state.tasks[key]
+    })
+    console.log(taskSorted)
+    return taskSorted
   }
 }
 
