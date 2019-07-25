@@ -1,14 +1,15 @@
 <template>
   <q-card>
-    <q-card-section class="row items-center">
+    <!-- <q-card-section class="row items-center">
       <div class="text-h6">Add Task</div>
       <q-space />
       <q-btn dense flat icon="close" round v-close-popup />
-    </q-card-section>
+    </q-card-section>-->
+    <modal-header>Add Task</modal-header>
 
     <q-form @submit.prevent="submitForm">
       <q-card-section>
-        <div class="row q-mb-sm">
+        <!-- <div class="row q-mb-sm">
           <q-input
             :rules="[val => !!val || 'Field is required']"
             autofocus
@@ -19,9 +20,10 @@
             ref="name"
             v-model="taskToSubmit.name"
           />
-        </div>
+        </div>-->
+        <modal-task-name :name.sync="taskToSubmit.name"></modal-task-name>
 
-        <div class="row q-mb-sm">
+        <!-- <div class="row q-mb-sm">
           <q-input
             :rules="['date']"
             label="Due date"
@@ -37,9 +39,11 @@
               </q-icon>
             </template>
           </q-input>
-        </div>
+        </div>-->
 
-        <div class="row q-mb-sm" v-if="taskToSubmit.dueDate">
+        <modal-due-date :dueDate.sync="taskToSubmit.dueDate"></modal-due-date>
+
+        <!-- <div class="row q-mb-sm" v-if="taskToSubmit.dueDate">
           <q-input label="Due time" outlined v-model="taskToSubmit.dueTime">
             <template v-slot:append>
               <q-icon class="cursor-pointer" name="access_time">
@@ -49,11 +53,13 @@
               </q-icon>
             </template>
           </q-input>
-        </div>
+        </div>-->
+        <modal-due-time :dueDate="taskToSubmit.dueDate" :dueTime.sync="taskToSubmit.dueTime"></modal-due-time>
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat label="Save" type="submit" />
+        <!-- <q-btn color="primary" flat label="Save" type="submit" /> -->
+        <modal-button></modal-button>
       </q-card-actions>
     </q-form>
   </q-card>
@@ -80,8 +86,14 @@ export default {
     },
     submitTask() {
       this.addTask(this.taskToSubmit)
-      console.log('submitted')
     }
+  },
+  components: {
+    'modal-header': require('./Shared/ModalHeader').default,
+    'modal-task-name': require('./Shared/ModalTaskName').default,
+    'modal-due-date': require('./Shared/ModalDueDate').default,
+    'modal-due-time': require('./Shared/ModalDueTime').default,
+    'modal-button': require('./Shared/ModalButton').default
   }
 }
 </script>
