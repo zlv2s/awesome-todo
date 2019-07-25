@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <no-task @addTask="showAddTask = true" v-if="!Object.keys(tasksTodo).length" />
+    <no-task v-if="!Object.keys(tasksTodo).length" />
 
     <task-todo :tasksTodo="tasksTodo" v-else />
 
@@ -9,7 +9,7 @@
     <task-completed :tasksCompleted="tasksCompleted" v-if="Object.keys(tasksCompleted).length" />
 
     <div class="absolute-bottom text-center q-mb-lg">
-      <q-btn @click="showAddTask = true" color="primary" icon="add" round size="24px"></q-btn>
+      <q-btn @click="openAddTask" color="primary" icon="add" round size="24px"></q-btn>
     </div>
 
     <q-dialog v-model="showAddTask">
@@ -30,6 +30,11 @@ export default {
     ...mapGetters('taskModule', ['tasksTodo', 'tasksCompleted'])
   },
 
+  mounted() {
+    this.$root.$on('addTask', () => {
+      this.openAddTask()
+    })
+  },
   components: {
     'add-task': require('../components/Modals/AddTask').default,
     'task-todo': require('../components/Task/TaskTodo').default,
@@ -39,6 +44,9 @@ export default {
   methods: {
     closeAddTask() {
       this.showAddTask = false
+    },
+    openAddTask() {
+      this.showAddTask = true
     }
   }
 }

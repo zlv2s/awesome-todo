@@ -5,7 +5,7 @@
     </template>
     You have no task to complete
     <template v-slot:action>
-      <q-btn @click="$emit('addTask')" color="primary" flat label="Add Task" />
+      <q-btn @click="$root.$emit('addTask')" color="primary" flat label="Add Task" />
     </template>
   </q-banner>
 </template>
