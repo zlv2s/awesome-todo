@@ -19,6 +19,60 @@ const state = {
       completed: false,
       dueDate: '2019/05/12',
       dueTime: '19:30'
+    },
+    'id4': {
+      name: 'hello world',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '17:30'
+    },
+    'id5': {
+      name: 'boy',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '18:30'
+    },
+    'id6': {
+      name: 'dpple',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '19:30'
+    },
+    'id': {
+      name: 'hello world',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '17:30'
+    },
+    'id7': {
+      name: 'boy',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '18:30'
+    },
+    'id8': {
+      name: 'dpple',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '19:30'
+    },
+    'id88': {
+      name: 'hello world',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '17:30'
+    },
+    'id9': {
+      name: 'boy',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '18:30'
+    },
+    'id99': {
+      name: 'dpple',
+      completed: false,
+      dueDate: '2019/05/12',
+      dueTime: '19:30'
     }
   },
   search: '',

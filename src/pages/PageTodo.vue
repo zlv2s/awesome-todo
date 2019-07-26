@@ -9,14 +9,16 @@
       v-if="search && !Object.keys(tasksTodo).length &&  !Object.keys(tasksCompleted).length"
     >No search results</p>
 
-    <!-- * criteria for no-task show or not -->
-    <no-task v-if="!Object.keys(tasksTodo).length && !search" />
+    <div class="relative-position">
+      <!-- * criteria for no-task show or not -->
+      <no-task v-if="!Object.keys(tasksTodo).length && !search" />
 
-    <task-todo :tasksTodo="tasksTodo" v-if="Object.keys(tasksTodo).length" />
+      <task-todo :tasksTodo="tasksTodo" v-if="Object.keys(tasksTodo).length" />
 
-    <q-separator dark spaced />
+      <q-separator dark spaced />
 
-    <task-completed :tasksCompleted="tasksCompleted" v-if="Object.keys(tasksCompleted).length" />
+      <task-completed :tasksCompleted="tasksCompleted" v-if="Object.keys(tasksCompleted).length" />
+    </div>
 
     <div class="absolute-bottom text-center q-mb-lg">
       <q-btn @click="openAddTask" color="primary" icon="add" round size="24px"></q-btn>
