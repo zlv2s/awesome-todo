@@ -1,18 +1,25 @@
 const state = {
   settings: {
-    show12: false
+    show12: false,
+    showTasksInOneList: false
   }
 }
 
 const mutations = {
-  updateSettings(state, val) {
+  setShow12(state, val) {
     state.settings.show12 = val
+  },
+  setShowTasksInOneList(state, val) {
+    state.settings.showTasksInOneList = val
   }
 }
 
 const actions = {
-  updateSettings({ commit }, val) {
-    commit('updateSettings', val)
+  setShow12({ commit }, val) {
+    commit('setShow12', val)
+  },
+  setShowTasksInOneList({ commit }, val) {
+    commit('setShowTasksInOneList', val)
   }
 }
 
