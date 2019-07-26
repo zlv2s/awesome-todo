@@ -4,6 +4,7 @@
     @click="updateTask({ id, updates:{ completed: !task.completed } })"
     clickable
     v-ripple
+    v-touch-hold:600.mouse="handleHold"
   >
     <q-item-section side top>
       <!-- * replace v-model with value, add class -->
@@ -11,9 +12,11 @@
     </q-item-section>
 
     <q-item-section>
-      <q-item-label :class="textStrikeThrough(task)">
-        {{ task.name}}
-      </q-item-label>
+      <q-item-label
+        :class="textStrikeThrough(task)"
+        v-html="$options.filters.searchHighlight(
+        task.name, search)"
+      ></q-item-label>
     </q-item-section>
 
     <q-item-section side>
@@ -22,7 +25,7 @@
           <q-icon class="q-mr-xs" name="event" size="18px" />
         </div>
         <div class="column">
-          <q-item-label caption class="row justify-end">{{ task.dueDate }}</q-item-label>
+          <q-item-label caption class="row justify-end">{{ task.dueDate | niceDate }}</q-item-label>
           <q-item-label caption class="row justify-end">
             <small>{{ task.dueTime }}</small>
           </q-item-label>
@@ -43,7 +46,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { date } from 'quasar'
+import { mapState, mapActions } from 'vuex'
+const { formatDate } = date
 export default {
   data() {
     return {
@@ -59,6 +64,9 @@ export default {
       type: String,
       required: true
     }
+  },
+  computed: {
+    ...mapState('taskModule', ['search'])
   },
   methods: {
     ...mapActions('taskModule', ['updateTask', 'deleteTask']),
@@ -87,10 +95,28 @@ export default {
         .onOk(() => {
           this.deleteTask(id)
         })
+    },
+    handleHold() {
+      this.showEditTask = true
     }
   },
   components: {
     'edit-task': require('../Modals/EditTask').default
+  },
+  filters: {
+    niceDate(date) {
+      return formatDate(date, 'MMM D')
+    },
+    searchHighlight(value, search) {
+      if (search) {
+        const searchRegExp = new RegExp(search, 'ig')
+        return value.replace(
+          searchRegExp,
+          match => `<span class="bg-yellow-6">${match}</span>`
+        )
+      }
+      return value
+    }
   }
 }
 </script>
