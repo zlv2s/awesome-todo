@@ -1,7 +1,8 @@
 <template>
   <q-card>
     <modal-header>Edit Task</modal-header>
-    <q-form @submit.prevent="updateForm">
+
+    <q-form @submit.prevent="submitForm">
       <q-card-section>
         <modal-task-name :name.sync="taskToSubmit.name" />
 
@@ -19,7 +20,10 @@
 
 <script>
 import { mapActions } from 'vuex'
+import addEditTaskMixin from 'src/mixins/mixin-add-edit'
+
 export default {
+  mixins: [addEditTaskMixin],
   props: ['task', 'id'],
   data() {
     return {
@@ -28,17 +32,10 @@ export default {
   },
   methods: {
     ...mapActions('taskModule', ['updateTask']),
-    updateForm() {
+    submitTask() {
       this.updateTask({ id: this.id, updates: this.taskToSubmit })
       this.$emit('closeModal')
     }
-  },
-  components: {
-    'modal-header': require('./Shared/ModalHeader').default,
-    'modal-task-name': require('./Shared/ModalTaskName').default,
-    'modal-due-date': require('./Shared/ModalDueDate').default,
-    'modal-due-time': require('./Shared/ModalDueTime').default,
-    'modal-button': require('./Shared/ModalButton').default
   },
   mounted() {
     // * deep copy
