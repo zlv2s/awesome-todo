@@ -1,3 +1,4 @@
+import { LocalStorage } from 'quasar'
 const state = {
   settings: {
     show12: false,
@@ -11,15 +12,26 @@ const mutations = {
   },
   setShowTasksInOneList(state, val) {
     state.settings.showTasksInOneList = val
+  },
+  setSettings(state, val) {
+    Object.assign(state.settings, val)
   }
 }
 
 const actions = {
-  setShow12({ commit }, val) {
+  setShow12({ commit, dispatch }, val) {
     commit('setShow12', val)
+    dispatch('saveSettings')
   },
-  setShowTasksInOneList({ commit }, val) {
+  setShowTasksInOneList({ commit, dispatch }, val) {
     commit('setShowTasksInOneList', val)
+    dispatch('saveSettings')
+  },
+  saveSettings({ state }) {
+    LocalStorage.set('settings', state.settings)
+  },
+  getSettings({ commit }) {
+    commit('setSettings', LocalStorage.getItem('settings'))
   }
 }
 
