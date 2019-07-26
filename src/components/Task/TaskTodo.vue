@@ -1,9 +1,8 @@
 <template>
   <transition
-    absolute-top
     appear
     enter-active-class="animated zoomIn"
-    leave-active-class="animated slideOutLeft"
+    leave-active-class="animated slideOutLeft absolute-top"
   >
     <div>
       <list-header bgcolor="bg-warning">Todo</list-header>

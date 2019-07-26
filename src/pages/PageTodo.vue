@@ -1,27 +1,40 @@
 <template>
-  <q-page class="q-pa-md">
-    <div class="row q-mb-lg">
-      <search />
-      <sort />
-    </div>
-    <p
-      class="text-center"
-      v-if="search && !Object.keys(tasksTodo).length &&  !Object.keys(tasksCompleted).length"
-    >No search results</p>
+  <q-page>
+    <div class="q-pa-md absolute full-width full-height column">
+      <div class="row q-mb-lg">
+        <search />
+        <sort />
+      </div>
+      <p
+        class="text-center"
+        v-if="search && !Object.keys(tasksTodo).length &&  !Object.keys(tasksCompleted).length"
+      >No search results</p>
 
-    <div class="relative-position">
-      <!-- * criteria for no-task show or not -->
-      <no-task v-if="!Object.keys(tasksTodo).length && !search" />
+      <q-scroll-area class="q-scroll-area-tasks">
+        <!-- * criteria for no-task show or not -->
+        <no-task v-if="!Object.keys(tasksTodo).length && !search" />
 
-      <task-todo :tasksTodo="tasksTodo" v-if="Object.keys(tasksTodo).length" />
+        <task-todo :tasksTodo="tasksTodo" v-if="Object.keys(tasksTodo).length" />
 
-      <q-separator dark spaced />
+        <q-separator dark spaced />
 
-      <task-completed :tasksCompleted="tasksCompleted" v-if="Object.keys(tasksCompleted).length" />
-    </div>
+        <task-completed
+          :tasksCompleted="tasksCompleted"
+          class="q-mb-xl"
+          v-if="Object.keys(tasksCompleted).length"
+        />
+      </q-scroll-area>
 
-    <div class="absolute-bottom text-center q-mb-lg">
-      <q-btn @click="openAddTask" color="primary" icon="add" round size="24px"></q-btn>
+      <div class="absolute-bottom no-pointer-events text-center q-mb-lg">
+        <q-btn
+          @click="openAddTask"
+          class="all-pointer-events"
+          color="primary"
+          icon="add"
+          round
+          size="24px"
+        ></q-btn>
+      </div>
     </div>
 
     <q-dialog v-model="showAddTask">
@@ -70,5 +83,9 @@ export default {
 <style lang="scss">
 .text-strikethrough {
   text-decoration: line-through;
+}
+.q-scroll-area-tasks {
+  display: flex;
+  flex-grow: 1;
 }
 </style>

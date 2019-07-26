@@ -1,9 +1,8 @@
 <template>
   <transition
-    absolute-top
     appear
     enter-active-class="animated zoomIn"
-    leave-active-class="animated zoomOut"
+    leave-active-class="animated zoomOut absolute-top"
   >
     <q-banner class="bg-grey-3" dense>
       <template v-slot:avatar>
