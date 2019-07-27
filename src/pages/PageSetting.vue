@@ -1,7 +1,6 @@
 <template>
-  <q-page>
+  <q-page padding>
     <q-list bordered class="q-mb-md" padding>
-      <q-separator spaced />
       <q-item-label header>Setting</q-item-label>
 
       <q-item tag="label" v-ripple>
