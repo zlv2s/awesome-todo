@@ -8,8 +8,11 @@ const routes = [
         path: '',
         component: () => import('pages/PageTodo.vue')
       }, {
-        path: 'setting',
+        path: '/setting',
         component: () => import('pages/PageSetting.vue')
+      }, {
+        path: '/setting/help',
+        component: () => import('pages/PageHelp.vue')
       }
     ]
   }

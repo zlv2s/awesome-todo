@@ -31,7 +31,7 @@ const actions = {
     LocalStorage.set('settings', state.settings)
   },
   getSettings({ commit }) {
-    commit('setSettings', LocalStorage.getItem('settings'))
+    if (LocalStorage.getItem('settings')) commit('setSettings', LocalStorage.getItem('settings'))
   }
 }
 
