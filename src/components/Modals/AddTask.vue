@@ -12,7 +12,7 @@
       </q-card-section>
 
       <q-card-actions align="right">
-        <modal-button></modal-button>
+        <modal-button />
       </q-card-actions>
     </q-form>
   </q-card>

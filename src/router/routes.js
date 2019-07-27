@@ -13,6 +13,9 @@ const routes = [
       }, {
         path: '/setting/help',
         component: () => import('pages/PageHelp.vue')
+      }, {
+        path: '/auth',
+        component: () => import('pages/PageAuth.vue')
       }
     ]
   }

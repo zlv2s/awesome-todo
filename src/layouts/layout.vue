@@ -3,6 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title class="absolute-center">Awesome Todo</q-toolbar-title>
+        <q-btn class="absolute-right" flat icon-right="account_circle" label="Login" to="/auth" />
       </q-toolbar>
     </q-header>
 
@@ -40,7 +41,6 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ nav.label }}</q-item-label>
-            <!-- <q-item-label caption>quasar.dev</q-item-label> -->
           </q-item-section>
         </q-item>
       </q-list>
