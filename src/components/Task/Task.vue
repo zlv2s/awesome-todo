@@ -1,7 +1,7 @@
 <template>
   <q-item
     :class="bgColor(task)"
-    @click="updateTask({ id, updates:{ completed: !task.completed } })"
+    @click="updateTask({ taskId, updates:{ completed: !task.completed } })"
     clickable
     v-ripple
     v-touch-hold:600.mouse="handleHold"
@@ -36,11 +36,11 @@
     <q-item-section side>
       <div class="row">
         <q-btn @click.stop="showEditTask = true" color="primary" dense flat icon="edit" round />
-        <q-btn @click.stop="promptToDelete(id)" color="red" dense flat icon="delete" round />
+        <q-btn @click.stop="promptToDelete(taskId)" color="red" dense flat icon="delete" round />
       </div>
     </q-item-section>
     <q-dialog v-model="showEditTask">
-      <edit-task :id="id" :task="task" @closeModal="showEditTask = false" />
+      <edit-task :task="task" :taskId="taskId" @closeModal="showEditTask = false" />
     </q-dialog>
   </q-item>
 </template>
@@ -60,7 +60,7 @@ export default {
       type: Object,
       required: true
     },
-    id: {
+    taskId: {
       type: String,
       required: true
     }
@@ -84,7 +84,7 @@ export default {
     textStrikeThrough(task) {
       return task.completed ? 'text-strikethrough' : ''
     },
-    promptToDelete(id) {
+    promptToDelete(taskId) {
       this.$q
         .dialog({
           title: 'Confirm',
@@ -101,7 +101,7 @@ export default {
           persistent: true
         })
         .onOk(() => {
-          this.deleteTask(id)
+          this.deleteTask(taskId)
         })
     },
     handleHold() {

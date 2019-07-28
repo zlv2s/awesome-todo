@@ -24,7 +24,7 @@ import addEditTaskMixin from 'src/mixins/mixin-add-edit'
 
 export default {
   mixins: [addEditTaskMixin],
-  props: ['task', 'id'],
+  props: ['task', 'taskId'],
   data() {
     return {
       taskToSubmit: {}
@@ -33,7 +33,7 @@ export default {
   methods: {
     ...mapActions('taskModule', ['updateTask']),
     submitTask() {
-      this.updateTask({ id: this.id, updates: this.taskToSubmit })
+      this.updateTask({ taskId: this.taskId, updates: this.taskToSubmit })
       this.$emit('closeModal')
     }
   },

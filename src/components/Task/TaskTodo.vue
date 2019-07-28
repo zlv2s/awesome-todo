@@ -7,7 +7,7 @@
     <div>
       <list-header bgcolor="bg-warning" v-if="!settings.showTasksInOneList">Todo</list-header>
       <q-list bordered separator>
-        <task :id="key" :key="key" :task="task" v-for="(task, key) in tasksTodo"></task>
+        <task :key="key" :task="task" :taskId="key" v-for="(task, key) in tasksTodo"></task>
       </q-list>
     </div>
   </transition>

@@ -33,7 +33,7 @@
           icon="add"
           round
           size="24px"
-        ></q-btn>
+        />
       </div>
     </div>
 

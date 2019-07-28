@@ -1,94 +1,41 @@
 import Vue from 'vue'
 import { uid } from 'quasar'
+import { firebaseDataBase, firebaseAuth } from 'boot/firebase'
 const state = {
   tasks: {
-    'id1': {
-      name: 'hello world',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '17:30'
-    },
-    'id2': {
-      name: 'boy',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '18:30'
-    },
-    'id3': {
-      name: 'dpple',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '19:30'
-    },
-    'id4': {
-      name: 'hello world',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '17:30'
-    },
-    'id5': {
-      name: 'boy',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '18:30'
-    },
-    'id6': {
-      name: 'dpple',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '19:30'
-    },
-    'id': {
-      name: 'hello world',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '17:30'
-    },
-    'id7': {
-      name: 'boy',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '18:30'
-    },
-    'id8': {
-      name: 'dpple',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '19:30'
-    },
-    'id88': {
-      name: 'hello world',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '17:30'
-    },
-    'id9': {
-      name: 'boy',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '18:30'
-    },
-    'id99': {
-      name: 'dpple',
-      completed: false,
-      dueDate: '2019/05/12',
-      dueTime: '19:30'
-    }
+    // 'id1': {
+    //   name: 'hello world',
+    //   completed: false,
+    //   dueDate: '2019/05/12',
+    //   dueTime: '17:30'
+    // },
+    // 'id2': {
+    //   name: 'boy',
+    //   completed: false,
+    //   dueDate: '2019/05/12',
+    //   dueTime: '18:30'
+    // },
+    // 'id3': {
+    //   name: 'dpple',
+    //   completed: false,
+    //   dueDate: '2019/05/12',
+    //   dueTime: '19:30'
+    // }
   },
   search: '',
   sort: 'name'
 }
 
 const mutations = {
-  updateTask(state, { id, updates }) {
-    // state.tasks[id]['completed'] = updates.completed
+  updateTask(state, { taskId, updates }) {
+    // state.tasks[taskId]['completed'] = updates.completed
     // * use Object.assign() instead
-    Object.assign(state.tasks[id], updates)
+    Object.assign(state.tasks[taskId], updates)
   },
-  deleteTask(state, id) {
-    // delete state.tasks[id]
+  deleteTask(state, taskId) {
+    // delete state.tasks[taskId]
     // * make it reactive
-    Vue.delete(state.tasks, id)
+    Vue.delete(state.tasks, taskId)
   },
   addTask(state, { taskId, task }) {
     // Object.assign(state.tasks, { [taskId]: task })
@@ -103,21 +50,56 @@ const mutations = {
 }
 
 const actions = {
-  updateTask({ commit }, { id, updates }) {
-    commit('updateTask', { id, updates })
+  updateTask({ commit, dispatch }, { taskId, updates }) {
+    // commit('updateTask', { taskId, updates })
+    dispatch('fbUpdateTask', { taskId, updates })
   },
-  deleteTask({ commit }, id) {
-    commit('deleteTask', id)
+  deleteTask({ commit, dispatch }, taskId) {
+    // commit('deleteTask', taskId)
+    dispatch('fbDeleteTask', taskId)
   },
-  addTask({ commit }, task) {
+  addTask({ commit, dispatch }, task) {
     let taskId = uid()
-    commit('addTask', { taskId, task })
+    // commit('addTask', { taskId, task })
+    dispatch('fbAddTask', { taskId, task })
   },
   setSearch({ commit }, value) {
     commit('setSearch', value)
   },
   setSort({ commit }, value) {
     commit('setSort', value)
+  },
+
+  // * read data from firebase
+  fbReadData({ commit }) {
+    const uid = firebaseAuth.currentUser.uid
+    const taskRef = firebaseDataBase.ref(`tasks/${uid}`)
+
+    // * child added
+    taskRef.on('child_added', snapshot => {
+      commit('addTask', { taskId: snapshot.key, task: snapshot.val() })
+    })
+
+    // * child changed
+    taskRef.on('child_changed', snapshot => {
+      commit('updateTask', { taskId: snapshot.key, updates: snapshot.val() })
+    })
+
+    // * child_delete
+    taskRef.on('child_removed', snapshot => {
+      commit('deleteTask', snapshot.key)
+    })
+  },
+
+  // * write data to firebase
+  fbAddTask({ commit }, { taskId, task }) {
+    firebaseDataBase.ref(`tasks/${firebaseAuth.currentUser.uid}/${taskId}`).set(task)
+  },
+  fbDeleteTask({ commit }, taskId) {
+    firebaseDataBase.ref(`tasks/${firebaseAuth.currentUser.uid}/${taskId}`).remove()
+  },
+  fbUpdateTask({ commit }, { taskId, updates }) {
+    firebaseDataBase.ref(`tasks/${firebaseAuth.currentUser.uid}/${taskId}`).update(updates)
   }
 }
 

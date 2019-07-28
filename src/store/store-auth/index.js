@@ -37,7 +37,7 @@ const actions = {
   logoutUser({ commit }) {
     firebaseAuth.signOut()
   },
-  handleAuthStateChange({ commit }) {
+  handleAuthStateChange({ commit, dispatch }) {
     firebaseAuth.onAuthStateChanged(user => {
       Loading.hide()
       if (user) {
@@ -46,6 +46,7 @@ const actions = {
         commit('setLoggedIn', true)
         LocalStorage.set('loggedIn', true)
         this.$router.push('/')
+        dispatch('taskModule/fbReadData', null, { root: true })
       } else {
         console.log('log-out')
         commit('setLoggedIn', false)

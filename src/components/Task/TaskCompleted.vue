@@ -7,7 +7,7 @@
     <div>
       <list-header bgcolor="bg-positive" v-if="!settings.showTasksInOneList">Copleted</list-header>
       <q-list bordered separator>
-        <task :id="key" :key="key" :task="task" v-for="(task, key) in tasksCompleted"></task>
+        <task :key="key" :task="task" :taskId="key" v-for="(task, key) in tasksCompleted"></task>
       </q-list>
     </div>
   </transition>
