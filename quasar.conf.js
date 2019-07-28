@@ -6,7 +6,8 @@ module.exports = function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
-      'firebase'
+      'firebase',
+      'router-auth'
     ],
 
     css: [
@@ -79,7 +80,8 @@ module.exports = function (ctx) {
       plugins: [
         'Notify',
         'Dialog',
-        'LocalStorage'
+        'LocalStorage',
+        'Loading'
       ]
     },
 
