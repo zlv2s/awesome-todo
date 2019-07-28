@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'RegAndLogin',
   props: ['tab'],
@@ -61,9 +62,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions('authModule', ['registerUser', 'loginUser']),
     submitForm() {
       if (this.$refs.email.validate() && this.$refs.password.validate()) {
-        alert('validated')
+        if (this.tab === 'register') {
+          this.registerUser(this.formData)
+        } else {
+          this.loginUser(this.formData)
+        }
       }
     },
     isValidEmialAdd(val) {

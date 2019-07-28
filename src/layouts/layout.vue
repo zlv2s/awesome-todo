@@ -3,7 +3,22 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title class="absolute-center">Awesome Todo</q-toolbar-title>
-        <q-btn class="absolute-right" flat icon-right="account_circle" label="Login" to="/auth" />
+        <q-btn
+          class="absolute-right"
+          flat
+          icon-right="account_circle"
+          label="Login"
+          to="/auth"
+          v-if="!loggedIn"
+        />
+        <q-btn
+          @click="logoutUser"
+          class="absolute-right"
+          flat
+          icon-right="account_circle"
+          label="Logout"
+          v-else
+        />
       </q-toolbar>
     </q-header>
 
@@ -53,7 +68,7 @@
 </template>
 
 <script>
-import { openURL } from 'quasar'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Layout',
@@ -74,8 +89,11 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState('authModule', ['loggedIn'])
+  },
   methods: {
-    openURL
+    ...mapActions('authModule', ['logoutUser'])
   }
 }
 </script>
