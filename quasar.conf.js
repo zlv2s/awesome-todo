@@ -67,7 +67,8 @@ module.exports = function (ctx) {
         'QScrollArea',
         'QToggle',
         'QTabPanels',
-        'QTabPanel'
+        'QTabPanel',
+        'QSpinner'
       ],
 
       directives: [

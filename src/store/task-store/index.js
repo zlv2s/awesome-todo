@@ -1,32 +1,18 @@
 import Vue from 'vue'
-import { uid } from 'quasar'
+import { uid, Notify } from 'quasar'
 import { firebaseDataBase, firebaseAuth } from 'boot/firebase'
+import { showErrorMessage } from 'src/functions/show-err-msg'
 const state = {
-  tasks: {
-    // 'id1': {
-    //   name: 'hello world',
-    //   completed: false,
-    //   dueDate: '2019/05/12',
-    //   dueTime: '17:30'
-    // },
-    // 'id2': {
-    //   name: 'boy',
-    //   completed: false,
-    //   dueDate: '2019/05/12',
-    //   dueTime: '18:30'
-    // },
-    // 'id3': {
-    //   name: 'dpple',
-    //   completed: false,
-    //   dueDate: '2019/05/12',
-    //   dueTime: '19:30'
-    // }
-  },
+  tasks: {},
   search: '',
-  sort: 'name'
+  sort: 'name',
+  tasksLoaded: false
 }
 
 const mutations = {
+  clearTasks(state) {
+    state.tasks = {}
+  },
   updateTask(state, { taskId, updates }) {
     // state.tasks[taskId]['completed'] = updates.completed
     // * use Object.assign() instead
@@ -46,6 +32,9 @@ const mutations = {
   },
   setSort(state, value) {
     state.sort = value
+  },
+  setTasksLoaded(state, value) {
+    state.tasksLoaded = value
   }
 }
 
@@ -72,8 +61,20 @@ const actions = {
 
   // * read data from firebase
   fbReadData({ commit }) {
-    const uid = firebaseAuth.currentUser.uid
+    // * get reference
+    let uid = firebaseAuth.currentUser.uid
+    // uid = 't2NtCHGr0ceTcVpqtZETEyjN9zp2'
     const taskRef = firebaseDataBase.ref(`tasks/${uid}`)
+
+    // * initial check for data
+    taskRef.once('value')
+      .then(dataSnapshot => {
+        console.log(dataSnapshot.val())
+        commit('setTasksLoaded', true)
+      }).catch(err => {
+        showErrorMessage(err.message)
+        this.$router.replace('/auth')
+      })
 
     // * child added
     taskRef.on('child_added', snapshot => {
@@ -93,13 +94,38 @@ const actions = {
 
   // * write data to firebase
   fbAddTask({ commit }, { taskId, task }) {
-    firebaseDataBase.ref(`tasks/${firebaseAuth.currentUser.uid}/${taskId}`).set(task)
+    firebaseDataBase.ref(`tasks/${firebaseAuth.currentUser.uid}/${taskId}`).set(task, err => {
+      if (err) {
+        showErrorMessage(err.message)
+      } else {
+        Notify.create('New task added!')
+      }
+    })
   },
   fbDeleteTask({ commit }, taskId) {
-    firebaseDataBase.ref(`tasks/${firebaseAuth.currentUser.uid}/${taskId}`).remove()
+    firebaseDataBase.ref(`tasks/${firebaseAuth.currentUser.uid}/${taskId}`).remove(err => {
+      if (err) {
+        showErrorMessage(err.message)
+      } else {
+        Notify.create('Task deleted!')
+      }
+    })
   },
   fbUpdateTask({ commit }, { taskId, updates }) {
-    firebaseDataBase.ref(`tasks/${firebaseAuth.currentUser.uid}/${taskId}`).update(updates)
+    firebaseDataBase.ref(`tasks/${firebaseAuth.currentUser.uid}/${taskId}`).update(updates, err => {
+      if (err) {
+        showErrorMessage(err.message)
+      } else {
+        const updateKeys = Object.keys(updates)
+        if (!(updateKeys.includes('completed') && updateKeys.length === 1)) {
+          Notify.create({
+            message: 'Task updated!',
+            position: 'bottom',
+            timeout: 1000
+          })
+        }
+      }
+    })
   }
 }
 

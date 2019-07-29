@@ -46,10 +46,12 @@ const actions = {
         commit('setLoggedIn', true)
         LocalStorage.set('loggedIn', true)
         this.$router.push('/')
-        dispatch('taskModule/fbReadData', null, { root: true })
+        dispatch('taskModule/fbReadData', null, { root: true }) // ! different modules
       } else {
         console.log('log-out')
         commit('setLoggedIn', false)
+        commit('taskModule/setTasksLoaded', false, { root: true }) // ! different modules
+        commit('taskModule/clearTasks', null, { root: true })
         LocalStorage.remove('loggedIn')
         this.$router.replace('/auth')
       }

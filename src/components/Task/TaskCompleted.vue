@@ -2,7 +2,7 @@
   <transition
     appear
     enter-active-class="animated zoomIn"
-    leave-active-class="animated slideOutLeft"
+    leave-active-class="animated zoomOut"
   >
     <div>
       <list-header bgcolor="bg-positive" v-if="!settings.showTasksInOneList">Copleted</list-header>
